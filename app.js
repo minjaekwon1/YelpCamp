@@ -220,8 +220,10 @@ async function main() {
 
     ////////////////////////// SERVER CONNECTION //////////////////////////
 
+    // The 'port' var is auto set by Heroku (usually 80)
+    const port = process.env.PORT || 3000;
     // '.listen()' enables JS to connect to the server at 'http://localhost:3000/' by using 'nodemon app.js' in the CLI
-    app.listen(3000, () => {
-        console.log('Listening on port 3000');
+    app.listen(port, () => {
+        console.log(`Serving on port ${port}`);
     })
 }
