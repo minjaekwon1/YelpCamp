@@ -1,0 +1,52 @@
+<!-- When line below is called anywhere inside an EJS file, reqs output of cur page be passed to 'layouts/boilerplate.ejs' as the 'body' local inside < %- body %> -->
+<% layout('layouts/boilerplate') %>
+<div class="row">
+  <h1 class="text-center">Edit a Campground</h1>
+  <div class="col-md-6 offset-md-3">
+    <!-- We use the 'novalidate' attri to stop the native browser validations so Bootstrap can take over the validations -->
+    <form method="POST" action="/campgrounds/<%= campground._id %>?_method=PUT" novalidate class="validated-form" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label class="form-label" for="title">Title: </label>
+        <!-- 'value' prepopulates the input fields w/ the doc's data -->
+        <!-- The 'required' attri makes it so you have to add input -->
+        <input class="form-control" type="text" id="title" name="campground[title]" value="<%= campground.title %>" required>
+        <div class="valid-feedback">
+          Woaw! Doggos!
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="location">Location: </label>
+        <input class="form-control" type="text" id="location" name="campground[location]" value="<%= campground.location %>" required>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="price">Price: </label>
+        <div class="input-group">
+          <span class="input-group-text" id="price-label">$</span>
+          <input class="form-control" type="text" id="price" name="campground[price]" placeholder="0.00" aria-describedby="price-label" value="<%= campground.price %>" required>
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="description">Description: </label>
+        <textarea class="form-control" type="text" id="description" name="campground[description]" required><%= campground.description %></textarea>
+      </div>
+      <div class="mb-3">
+        <label class="form-label" for="image">Add More Images: </label>
+        <input class="form-control" type="file" name="image" id="image" multiple>
+      </div>
+      <div class="mb-3">
+        <% campground.images.forEach(function(img, i) { %>
+        <img src="<%= img.thumbnail %>" alt="">
+        <div class="form-check-inline">
+          <!-- Each checkbox has its own 'value', 'filename', but the sem 'name' so every checked item's val is added to the arr -->
+          <input type="checkbox" id="image-<%= i %>" name="deleteImages[]" value="<%= img.filename %>">
+          <label for="image-<%= i %>">Delete?</label>
+        </div>
+        <% }) %>
+      </div>
+      <div class="mb-3">
+        <button class="btn btn-success">Update Campground</button>
+      </div>
+    </form>
+    <a href="/campgrounds/<%= campground._id %>">Back to Campground</a>
+  </div>
+</div>
